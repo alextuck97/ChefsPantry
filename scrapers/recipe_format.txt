@@ -1,0 +1,11 @@
+{
+    id,
+    url,
+    recipe : {
+	title,
+        hours,
+	minutes,
+        description,
+        ingredients : []
+    }
+}

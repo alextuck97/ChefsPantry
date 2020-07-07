@@ -1,0 +1,5 @@
+# credentials
+config.py
+
+# scraped recipes
+/recipe_jsons
