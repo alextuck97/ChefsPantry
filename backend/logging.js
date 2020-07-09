@@ -1,5 +1,5 @@
 function logger(req, res, next) {
-    console.log("Request url: ", req.originalUrl, " Request type: ", req.method);
+    console.log("[REQUEST] ", req.method, " ", req.originalUrl);
     next();
 }
 

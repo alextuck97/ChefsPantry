@@ -8,7 +8,7 @@ var app = require("../app").app;
 chai.use(chaiHttp);
 chai.should();
 
-describe('Routes', function () {
+describe('Recipe Routes', function () {
 
     before(function(done) {
         if(app.dbConnected){
@@ -21,11 +21,10 @@ describe('Routes', function () {
     })
 
    
-
-    describe('Listing GET/', function () {
-        it('should return one record', function (done) {
+    describe('GET recipes/id/:id', function () {
+        it('should return one recipe', function (done) {
             chai.request(app)
-                .get("/listing/10006546/")
+                .get("/recipes/id/5f04f3452be79d51af283a69")
                 .end(function(err, res) {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
@@ -33,6 +32,36 @@ describe('Routes', function () {
                 })
             
         });
+
+    describe('GET recipes/ingredients', function () {
+        it('should return no recipes', function(done) {
+            chai.request(app)
+                .get("/recipes/ingredients")
+                .end(function(err, res) {
+                    res.should.have.status(400);
+                    done();
+                })
+        })
+
+        it('should return 2 documents', function (done) {
+            chai.request(app)
+                .get("/recipes/ingredients?ing=olive oil&ing=yellow onion")
+                .end(function(err, res) {
+                    res.should.have.status(200);
+                    res.body.length.should.equal(2);
+                    done();
+                })
+        })
+
+        it('should reject the query because it\'s too big', function(done) {
+            chai.request(app)
+                .get("/recipes/ingredients?ing=1&ing=2&ing=2&ing=2&ing=2&ing=2")
+                .end(function(err, res) {
+                    res.should.have.status(400);
+                    done();
+                })
+        })
+    })
 
   });
 

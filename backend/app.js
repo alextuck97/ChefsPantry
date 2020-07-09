@@ -3,8 +3,6 @@ const express = require("express");
 const body_parser = require("body-parser");
 
 const port = 3000;
-
-
 var app = express();
 app.dbConnected = false;
 
@@ -17,31 +15,26 @@ app.use(loggingfns);
 
 /********************************/
 
+/**Routes***********************/
+
+const recipe_routes = require("./routes/recipe_routes");
+
+/***************************** */
+
 const db = require("./db");
-const dbName = "sample_airbnb";
-const collectionName = "listingsAndReviews";
+const dbName = "sample_recipes";
+const collectionName = "recipes";
 
 
 
 db.initialize(dbName, collectionName, function(dbCollection) {
 
-    app.get("/listing/:id", (request, response) => {
-        const itemid = request.params.id;
-        dbCollection.findOne({_id : itemid}).then((result) => {
-            
-            if(result === null){
-                response.status(404);
-            }
+    app.use("/recipes", function(request, response, next){
+        request.dbCollection = dbCollection;
+        next();
+    }, recipe_routes);
 
-            response.json(result);
-        })
-        .catch((error) => {
-            response.status(400);
-            console.log(error);
-        })
-        
-    })
-
+    
     
     app.listen(port, () =>  {
         console.log(`Listening on port ${port}`);
