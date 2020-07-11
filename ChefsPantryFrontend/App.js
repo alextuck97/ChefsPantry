@@ -25,6 +25,7 @@ const App: () => React$Node = () => {
         <Stack.Screen 
           name="Home"
           component={HomeScreen}
+          options={{title : "Chef's Pantry"}}
         />
         <Stack.Screen 
           name="Recipe"

@@ -67,8 +67,6 @@ const RecipeScreen = ({route, navigation}) => {
                 keyExtractor={item => item.id}
             />
             
-            
-           
         </SafeAreaView>
         
     );  
