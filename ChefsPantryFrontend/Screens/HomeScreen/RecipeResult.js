@@ -3,23 +3,33 @@ import { View,
         Pressable, 
         StyleSheet,
         Text } from 'react-native';
-import { ceil } from 'react-native-reanimated';
+
+import requests from "./Requests";
 
 
-const RecipeResult = ({recipeObject, matches, navigation}) => {
+const RecipeResult = ({recipeKey, recipeData, navigation}) => {
 
-    const { sitetitle, recipe } = recipeObject;
+    const { title, count } = recipeData;
     
+
+    const onRecipePress = () => {
+        requests.queryById(recipeKey).then(result => {
+            console.log(result);
+            navigation.navigate("Recipe", {recipeObject : result});
+        }).catch(error => console.log(error));
+    }
+
+
     return (
 
-        <Pressable onPress={() => navigation.navigate("Recipe", {recipeObject : recipeObject})}>
+        <Pressable onPress={() => onRecipePress()}>
             <View style={style.container}>
                 <View style={style.titleContainer}>
-                    <Text style={style.title}>{recipe.title}</Text>
+                    <Text style={style.title}>{title}</Text>
                 </View>
                 
                 <View style={style.matchesContainer}>
-                    <Text style={style.matches}>{matches} matches</Text>
+                    <Text style={style.matches}>{count} matches</Text>
                 </View>
                 
             </View>

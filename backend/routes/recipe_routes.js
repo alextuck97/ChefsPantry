@@ -25,6 +25,14 @@ router.get('/id/:id', function(request, response) {
 
 // Get recipes matching query. 
 // Ex. /ingredients?ing=black pepper&ing=beef
+// Returns an object with recipe _ids as keys. 
+// Each key contains the recipe title and the number
+// of matched ingredients.
+// {
+//    "id.a" : { count : 2, title : "Mac and cheese"},
+//    "id.b" : { count : 1, title : "Grilled cheese"}
+//}
+
 router.get('/ingredients', async function(request, response) {
     
     let ingredients = request.query.ing;
@@ -54,10 +62,17 @@ router.get('/ingredients', async function(request, response) {
             //Await all ingredient requests
             let results = await Promise.all(queries);
 
-            //Map the results to the ingredient query
-            results = ingredients.reduce((acc, curr, i) => (acc[curr] = results[i], acc), {});
-
-            response.json(results);
+            let matchCounts = {};
+            results.forEach((result, i) => {
+                result.forEach((recipe, j) => {
+                    if(matchCounts[recipe._id] === undefined){
+                        matchCounts[recipe._id] = { count : 0, title : recipe.recipe.title};
+                    }
+                    matchCounts[recipe._id].count += 1;
+                })
+            })
+            
+            response.json(matchCounts);
         }
         catch(e) {
             response.status(400);

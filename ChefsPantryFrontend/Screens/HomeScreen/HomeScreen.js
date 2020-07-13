@@ -10,7 +10,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 import IngredientParam from "./IngredientParam";
 import RecipeResult from "./RecipeResult";
-import queryRecipe from './Requests';
+import requests from './Requests';
 
 const test_recipe_obj = {"_id":{"$oid":"5f04f3452be79d51af283a69"},"recipe":{"title":"Creamy Crock Pot Pork Chops Potatoes & Onions","description":"Creamy Crock Pot Pork Chops Potatoes & Onions is an easy comfort food dinner that only takes a few ingredients and a few minutes to prepare.  These slow cooker pork chops are a hit!","minutes":"18","hours":"0","ingredients":["yellow onion","red potatoes","boneless pork chops ","cream of mushroom soup","dry ranch dressing mix","ground black peppe","olive oil"]},"url":"https://www.thewholesomedish.com/creamy-crock-pot-pork-chops-potatoes-onions/","sitetitle":"The Wholesome Dish"};
 const test_matches = 3;
@@ -57,7 +57,7 @@ const HomeScreen = ({navigation}) => {
 
         onLoadChange(true);
 
-        queryRecipe(ingredientQuery).then((result) => {
+        requests.queryRecipe(ingredientQuery).then((result) => {
             console.log(result);
             setLoadedRecipes(result);
             onLoadChange(false);
@@ -95,9 +95,14 @@ const HomeScreen = ({navigation}) => {
             
             
             <ScrollView>
-                {recipes.map((item, index) => {
-                    return <RecipeResult recipeObject={item} matches={test_matches} navigation={navigation}/>;
-                })}
+                {//recipes.map((item, index) => {
+                 //   return <RecipeResult recipeObject={item} matches={test_matches} navigation={navigation}/>;
+                //})
+
+                Object.entries(recipes).map(([key, value], index) => {
+                    return <RecipeResult recipeKey={key} recipeData={value} navigation={navigation}/>
+                })
+                }
             </ScrollView>
             
             
