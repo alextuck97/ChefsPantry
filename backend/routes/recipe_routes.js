@@ -47,7 +47,8 @@ router.get('/ingredients', async function(request, response) {
             //Start a request for each ingredient
             let queries = [];
             ingredients.forEach((value, index) => {
-                queries[index] = request.dbCollection.find({"recipe.ingredients" : value}).project({_id : 1}).toArray();
+                queries[index] = request.dbCollection.find({"recipe.ingredients" : value})
+                        .project({_id : 1, sitetitle : 1, "recipe.title" : 1}).toArray();
             })
 
             //Await all ingredient requests
