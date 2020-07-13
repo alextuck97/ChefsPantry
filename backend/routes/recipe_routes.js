@@ -25,7 +25,7 @@ router.get('/id/:id', function(request, response) {
 
 // Get recipes matching query. 
 // Ex. /ingredients?ing=black pepper&ing=beef
-router.get('/ingredients', function(request, response) {
+router.get('/ingredients', async function(request, response) {
     
     let ingredients = request.query.ing;
     
@@ -43,20 +43,25 @@ router.get('/ingredients', function(request, response) {
         response.json({message : "[ERROR] : Pass 5 or less ingredients as query"});
     }
     else{
-        request.dbCollection.find({"recipe.ingredients" : {$all : ingredients}}).toArray()
-        .then((result) => {
-            if(result === null)
-            {
-                response.json({message : "No recipes match query",
-                                query : ingredients});
-            }else {
-                response.json(result);
-            }
-        })
-        .catch((error) => {
+        try {
+            //Start a request for each ingredient
+            let queries = [];
+            ingredients.forEach((value, index) => {
+                queries[index] = request.dbCollection.find({"recipe.ingredients" : value}).project({_id : 1}).toArray();
+            })
+
+            //Await all ingredient requests
+            let results = await Promise.all(queries);
+
+            //Map the results to the ingredient query
+            results = ingredients.reduce((acc, curr, i) => (acc[curr] = results[i], acc), {});
+
+            response.json(results);
+        }
+        catch(e) {
             response.status(400);
-            console.log(error);
-        })
+            console.log(e);
+        }
     }
 })
 

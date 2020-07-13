@@ -48,17 +48,20 @@ describe('Recipe Routes', function () {
                 .get("/recipes/ingredients?ing=olive oil&ing=yellow onion")
                 .end(function(err, res) {
                     res.should.have.status(200);
-                    res.body.length.should.equal(2);
+                    res.body.should.have.all.keys('olive oil', 'yellow onion');
+                    res.body['olive oil'].length.should.equal(6);
+                    res.body['yellow onion'].length.should.equal(3);
                     done();
                 })
         })
 
-        it('should return 6 documents', function (done) {
+        it('should return olive oil with 6 docs', function (done) {
             chai.request(app)
                 .get("/recipes/ingredients?ing=olive oil&")
                 .end(function(err, res) {
                     res.should.have.status(200);
-                    res.body.length.should.equal(6);
+                    res.body.should.have.all.keys('olive oil');
+                    res.body['olive oil'].length.should.equal(6);
                     done();
                 })
         })
