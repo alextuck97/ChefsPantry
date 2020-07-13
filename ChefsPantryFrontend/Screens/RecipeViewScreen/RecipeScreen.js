@@ -130,7 +130,9 @@ const ingredientStyles = StyleSheet.create({
     ingredientBox : {
         marginVertical : 5,
         marginHorizontal : 20,
-        backgroundColor : '#bdbebf',
+        backgroundColor : "#f2eea2",
+        borderColor : "#aba987",
+        borderWidth : 1,
         borderRadius : 5,
         fontSize : 20
     },

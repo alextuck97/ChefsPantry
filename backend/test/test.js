@@ -53,6 +53,16 @@ describe('Recipe Routes', function () {
                 })
         })
 
+        it('should return 6 documents', function (done) {
+            chai.request(app)
+                .get("/recipes/ingredients?ing=olive oil&")
+                .end(function(err, res) {
+                    res.should.have.status(200);
+                    res.body.length.should.equal(6);
+                    done();
+                })
+        })
+
         it('should reject the query because it\'s too big', function(done) {
             chai.request(app)
                 .get("/recipes/ingredients?ing=1&ing=2&ing=2&ing=2&ing=2&ing=2")

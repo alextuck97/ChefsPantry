@@ -94,7 +94,7 @@ const HomeScreen = ({navigation}) => {
             
             
             
-            <ScrollView contentContainerStyle={pageStyles.recipeResults}>
+            <ScrollView>
                 {recipes.map((item, index) => {
                     return <RecipeResult recipeObject={item} matches={test_matches} navigation={navigation}/>;
                 })}
@@ -123,11 +123,6 @@ const pageStyles = StyleSheet.create({
     queryTags : {
         flexDirection : "row",
         flexWrap : "wrap"
-    },
-
-    recipeResults : {
-        flexGrow : 1,
-        justifyContent : "space-between"
     },
 
     searchButtonContainer : {
