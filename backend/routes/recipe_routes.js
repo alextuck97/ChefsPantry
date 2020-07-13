@@ -29,6 +29,10 @@ router.get('/ingredients', function(request, response) {
     
     let ingredients = request.query.ing;
     
+	if(typeof(ingredients) === "string"){
+		ingredients = [ingredients];
+	}
+	
     if(ingredients === undefined){
         response.status(400);
         response.json({message : "[ERROR] : No ingredients passed"});

@@ -34,8 +34,9 @@ const test_recipe = {
 
 const RecipeScreen = ({route, navigation}) => {
 
-    //const { recipe } = route.params;
-    const { site_title, url, recipe } = test_recipe;
+    const { recipeObject } = route.params;
+
+    const { sitetitle, url, recipe } = recipeObject;
     const {title, description, minutes, hours, ingredients} = recipe;
    
 
@@ -50,7 +51,7 @@ const RecipeScreen = ({route, navigation}) => {
             
             <Text style={pageStyles.title}>{title}</Text>
             <Text style={pageStyles.time}>{hours} hr {minutes} min</Text>
-            <Text style={pageStyles.source_site}>From {site_title}</Text>
+            <Text style={pageStyles.source_site}>From {sitetitle}</Text>
             <Description style={pageStyles.description} description={description}/>
             
             <View style={pageStyles.buttonContainer}>
