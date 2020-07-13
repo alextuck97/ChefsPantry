@@ -6,7 +6,7 @@ const id_url = "http://10.0.2.2:3000/recipes/id/";
 async function queryRecipe(ingredients) {
 
     let queryString = "";
-    console.log(ingredients);
+    
     ingredients.forEach(element => {
         queryString += "ing=" + element + "&";
     });

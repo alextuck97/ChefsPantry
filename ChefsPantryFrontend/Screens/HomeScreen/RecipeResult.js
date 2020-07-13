@@ -14,7 +14,6 @@ const RecipeResult = ({recipeKey, recipeData, navigation}) => {
 
     const onRecipePress = () => {
         requests.queryById(recipeKey).then(result => {
-            console.log(result);
             navigation.navigate("Recipe", {recipeObject : result});
         }).catch(error => console.log(error));
     }
