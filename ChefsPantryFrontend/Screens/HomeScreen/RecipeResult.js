@@ -7,15 +7,19 @@ import { View,
 import requests from "./Requests";
 
 
-const RecipeResult = ({recipeKey, recipeData, navigation}) => {
+const RecipeResult = ({recipeKey, recipeData, navigation, setLoading}) => {
 
     const { title, count } = recipeData;
     
 
     const onRecipePress = () => {
+        
+        setLoading(true);
+        
         requests.queryById(recipeKey).then(result => {
             navigation.navigate("Recipe", {recipeObject : result});
-        }).catch(error => console.log(error));
+        }).catch(error => console.log(error))
+        .finally(setLoading(false));
     }
 
 

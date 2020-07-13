@@ -97,7 +97,12 @@ const HomeScreen = ({navigation}) => {
             
             <ScrollView>
                 {Object.entries(recipes).map(([key, value], index) => {
-                    return <RecipeResult key={key} recipeKey={key} recipeData={value} navigation={navigation}/>
+                    return <RecipeResult 
+                                key={key} 
+                                recipeKey={key} 
+                                recipeData={value} 
+                                navigation={navigation}
+                                setLoading={onLoadChange}/>
                 })}  
             </ScrollView>
             
