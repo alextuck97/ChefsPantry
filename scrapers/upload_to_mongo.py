@@ -19,6 +19,6 @@ if __name__ == "__main__":
     db = client["sample_recipes"]
     col = db["recipes"]
 
-    file_names = ["recipe_jsons/wholesomedish.txt"]
+    file_names = ["processed_jsons/processed_jsons/wholesomedish.txt"]
 
     upload_files(file_names)
