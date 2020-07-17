@@ -1,0 +1,3 @@
+[submodule "ingredient-phrase-tagger"]
+	path = ingredient-phrase-tagger
+	url = https://github.com/alextuck97/ingredient-phrase-tagger
