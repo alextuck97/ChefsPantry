@@ -1,7 +1,6 @@
 from base_scraper import BaseScraper, BeautifulSoup, requests
 import string, re
-url = "https://www.thewholesomedish.com/category/entree/page/2/"
-recipe_link_class = "entry-title-link"
+
 
 
 
@@ -29,8 +28,11 @@ def recipe_parser(soup):
     else:
         recipe_dict["recipe"]["description"] = recipe.find(class_=recipe_summary).string
     
-    recipe_dict["recipe"]["minutes"] = recipe.find(class_=recipe_total_minutes).string
-    
+    try:
+        recipe_dict["recipe"]["minutes"] = recipe.find(class_=recipe_total_minutes).string
+    except AttributeError:
+        recipe_dict["recipe"]["minutes"] = "0"
+
     try:
         recipe_dict["recipe"]["hours"] = recipe.find(class_=recipe_total_hours).string
     except AttributeError:
@@ -65,5 +67,36 @@ if __name__ == "__main__":
     # soup = BeautifulSoup(page.content, "html.parser")
     # d = recipe_parser(soup)
     # print(d)
-    scraper = BaseScraper(url, recipe_link_class, recipe_parser, "The Wholesome Dish")
-    scraper.scrape("scraped_jsons/wholesomedish.txt")
+
+    url = "https://www.thewholesomedish.com/category/"
+    recipe_link_class = "entry-title-link"
+
+    for i in range(1, 6):
+        u = url + "entree/page/" + str(i)
+        print("Scraping " + u)
+        scraper = BaseScraper(u, recipe_link_class, recipe_parser, "The Wholesome Dish")
+        scraper.scrape("scraped_jsons/wholesomedish_entree" + str(i) + ".txt")
+    
+    for i in range(1, 4):
+        u = url + "breakfast/page/" + str(i)
+        print("Scraping " + u)
+        scraper = BaseScraper(u, recipe_link_class, recipe_parser, "The Wholesome Dish")
+        scraper.scrape("scraped_jsons/wholesomedish_breakfast" + str(i) + ".txt")
+    
+    for i in range(1, 3):
+        u = url + "side-dish/page/" + str(i)
+        print("Scraping " + u)
+        scraper = BaseScraper(u, recipe_link_class, recipe_parser, "The Wholesome Dish")
+        scraper.scrape("scraped_jsons/wholesomedish_side-dish" + str(i) + ".txt")
+
+    for i in range(1, 2):
+        u = url + "dessert/page/" + str(i)
+        print("Scraping " + u)
+        scraper = BaseScraper(u, recipe_link_class, recipe_parser, "The Wholesome Dish")
+        scraper.scrape("scraped_jsons/wholesomedish_soup" + str(i) + ".txt")
+
+    for i in range(1, 3):
+        u = url + "dessert/page/" + str(i)
+        print("Scraping " + u)
+        scraper = BaseScraper(u, recipe_link_class, recipe_parser, "The Wholesome Dish")
+        scraper.scrape("scraped_jsons/wholesomedish_dessert" + str(i) + ".txt")
