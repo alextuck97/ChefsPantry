@@ -8,19 +8,33 @@ const MAX_INGREDIENT_QUERY = 5;
 // Get recipe from mongodb id
 router.get('/id/:id', function(request, response) {
     
-    let id = request.params.id;
-    request.dbCollection.findOne({_id : ObjectId(id)}).then((result) => {
-        
-        if(result === null){
-            response.status(404);
-        }
+    let id;
+    try {
+        id = ObjectId(request.params.id);
+        request.dbCollection.findOne({_id : id}).then((result) => {
+            
+            if(result === null){
+                response.json({error : `${request.params.id} not found`});
+            }else{
+                response.json(result);
+            }
 
-        response.json(result);
-    })
-    .catch((error) => {
+            
+        })
+        .catch((error) => {
+            response.status(400);
+            response.json({name : error.name, error : error.message});
+            console.log(error);
+        })
+    } catch (error) {
         response.status(400);
-        console.log(error);
-    })
+        response.json({name : error.name, error : error.message});
+        console.log(error.name + " " + error.message);
+    }
+    
+
+
+    
 })
 
 // Get recipes matching query. 
@@ -55,7 +69,7 @@ router.get('/ingredients', async function(request, response) {
             //Start a request for each ingredient
             let queries = [];
             ingredients.forEach((value, index) => {
-                queries[index] = request.dbCollection.find({"recipe.ingredients" : value})
+                queries[index] = request.dbCollection.find({"recipe.ingredients" : value.toLowerCase()})
                         .project({_id : 1, sitetitle : 1, "recipe.title" : 1}).toArray();
             })
 
