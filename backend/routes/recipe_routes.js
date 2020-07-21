@@ -6,11 +6,12 @@ var router = express.Router();
 const MAX_INGREDIENT_QUERY = 5;
 
 // Get recipe from mongodb id
-router.get('/id/:id', function(request, response) {
+router.get('/id/:id', async function(request, response) {
     
     let id;
     try {
         id = ObjectId(request.params.id);
+        
         request.dbCollection.findOne({_id : id}).then((result) => {
             
             if(result === null){
@@ -68,6 +69,7 @@ router.get('/ingredients', async function(request, response) {
         try {
             //Start a request for each ingredient
             let queries = [];
+            
             ingredients.forEach((value, index) => {
                 queries[index] = request.dbCollection.find({"recipe.ingredients" : value.toLowerCase()})
                         .project({_id : 1, sitetitle : 1, "recipe.title" : 1}).toArray();

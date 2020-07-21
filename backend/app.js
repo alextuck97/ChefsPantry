@@ -6,12 +6,12 @@ const port = 3000;
 var app = express();
 app.dbConnected = false;
 
-const loggingfns = require("./logging").loggingfns;
+const middle_wares = require("./middle-ware").middle_wares;
 
 /**Base middleware***************/
 
 app.use(body_parser.json());
-app.use(loggingfns);
+app.use(middle_wares);
 
 /********************************/
 
@@ -30,28 +30,23 @@ if(process.argv[2] === "production"){
     var dbName = "sample_recipes";
 }
 
-db.initialize(dbName, collectionName, function(dbCollection) {
 
-    app.use("/recipes", function(request, response, next){
-        request.dbCollection = dbCollection;
-        next();
-    }, recipe_routes);
 
+
+
+const dbCollection = db.initialize(dbName, collectionName, app);
+
+app.use("/recipes", async function(request, response, next){
+    request.dbCollection = await dbCollection;
     
-    
-    app.listen(port, () =>  {
-        console.log(`Listening on port ${port}`);
-    })
-
-    app.emit("dbConnected");
-    app.dbConnected = true;
+    next();
+}, recipe_routes);
 
 
-},function(err) {
-    throw (err);
+
+app.listen(port, () =>  {
+    console.log(`Listening on port ${port}`);
 })
-
-
 
 
 

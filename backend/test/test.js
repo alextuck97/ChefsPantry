@@ -10,17 +10,6 @@ chai.should();
 
 describe('Recipe Routes', function () {
 
-    before(function(done) {
-        if(app.dbConnected){
-            process.nextTick(done);
-        } else {
-            console.log("Waiting on connection");
-            app.on('dbConnected', ()  => {
-                done();
-            });
-        }
-    })
-
    
     describe('GET recipes/id/:id', function () {
         it('should return one recipe', function (done) {

@@ -17,5 +17,8 @@
     "mocha": "^8.0.1",
     "mongodb": "^3.5.9",
     "server-destroy": "^1.0.1"
+  },
+  "devDependencies": {
+    "claudia": "^5.12.0"
   }
 }
