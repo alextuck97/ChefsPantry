@@ -38,16 +38,22 @@ const ListHeader = (recipe, sitetitle, url) => {
     return (
         <View>
             <Text style={pageStyles.title}>{title}</Text>
-            <Text style={pageStyles.time}>{hours} hr {minutes} min</Text>
+            {hours === undefined && minutes == undefined ? null : 
+                <Text style={pageStyles.time}>{hours} hr {minutes} min</Text>
+            }
             <Text style={pageStyles.source_site}>From {sitetitle}</Text>
+            
             <Description style={pageStyles.description} description={description}/>
             
-            <View style={pageStyles.buttonContainer}>
-                <Button color="#e64c35" style={pageStyles.button}
-                        title="Get the recipe here!"
-                        onPress={ () => { Linking.openURL(url)}} 
-                />
-            </View>
+            {url === undefined ? null : 
+                <View style={pageStyles.buttonContainer}>
+                    <Button color="#e64c35" style={pageStyles.button}
+                            title="Get the recipe here!"
+                            onPress={ () => { Linking.openURL(url)}} 
+                    />
+                </View>
+            }
+            
         </View>
     )
 }
