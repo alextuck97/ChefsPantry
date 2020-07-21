@@ -32,23 +32,11 @@ const test_recipe = {
 }
 
 
-const RecipeScreen = ({route, navigation}) => {
-
-    const { recipeObject } = route.params;
-
-    const { sitetitle, url, recipe } = recipeObject;
-    const {title, description, minutes, hours, ingredients} = recipe;
-   
-
-    const renderIngredient = ({item, index}) => {
-        return(
-            <Ingredient style={ingredientStyles} name={item} />
-        )   
-    }
-
+const ListHeader = (recipe, sitetitle, url) => {
+    
+    const {title, description, minutes, hours} = recipe;
     return (
-        <SafeAreaView style={{flex : 1}}>
-            
+        <View>
             <Text style={pageStyles.title}>{title}</Text>
             <Text style={pageStyles.time}>{hours} hr {minutes} min</Text>
             <Text style={pageStyles.source_site}>From {sitetitle}</Text>
@@ -60,17 +48,8 @@ const RecipeScreen = ({route, navigation}) => {
                         onPress={ () => { Linking.openURL(url)}} 
                 />
             </View>
-            
-            
-            <FlatList  
-                data={ingredients}
-                renderItem={renderIngredient}
-                keyExtractor={item => item.id}
-            />
-            
-        </SafeAreaView>
-        
-    );  
+        </View>
+    )
 }
 
 
@@ -87,6 +66,36 @@ const Description = ({style, description}) => {
     )
 
 }
+
+
+const RecipeScreen = ({route, navigation}) => {
+
+    const { recipeObject } = route.params;
+
+    const { sitetitle, url, recipe } = recipeObject;
+    const {ingredients} = recipe;
+   
+
+    const renderIngredient = ({item, index}) => {
+        return(
+            <Ingredient style={ingredientStyles} name={item} />
+        )   
+    }
+
+    return (
+        <SafeAreaView style={{flex : 1}}>
+            <FlatList ListHeaderComponent={ListHeader(recipe, sitetitle, url)} 
+                data={ingredients}
+                renderItem={renderIngredient}
+                keyExtractor={item => item.id}
+            />
+        </SafeAreaView>
+        
+    );  
+}
+
+
+
 
 
 //Styles for stuff defined on this page, like buttons and text
