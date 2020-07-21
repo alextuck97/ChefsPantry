@@ -66,13 +66,15 @@ router.get('/ingredients', async function(request, response) {
             results.forEach((result, i) => {
                 result.forEach((recipe, j) => {
                     if(matchCounts[recipe._id] === undefined){
-                        matchCounts[recipe._id] = { count : 0, title : recipe.recipe.title};
+                        matchCounts[recipe._id] = { count : 0, title : recipe.recipe.title, _id : recipe._id};
                     }
                     matchCounts[recipe._id].count += 1;
                 })
             })
             
-            response.json(matchCounts);
+            let counts = Object.values(matchCounts);
+            counts.sort((a, b) => b.count - a.count);
+            response.json(counts);
         }
         catch(e) {
             response.status(400);

@@ -49,7 +49,7 @@ describe('Recipe Routes', function () {
                 .end(function(err, res) {
                     res.should.have.status(200);
                     
-                    Object.keys(res.body).length.should.equal(12);
+                    res.body.length.should.equal(12);
                     //res.body.should.have.all.keys('olive oil', 'yellow onion');
                     //res.body['olive oil'].length.should.equal(6);
                     //res.body['yellow onion'].length.should.equal(3);
@@ -63,7 +63,7 @@ describe('Recipe Routes', function () {
                 .end(function(err, res) {
                     res.should.have.status(200);
                     //res.body.should.have.all.keys('olive oil');
-                    Object.keys(res.body).length.should.equal(3);
+                    res.body.length.should.equal(3);
                     done();
                 })
         })

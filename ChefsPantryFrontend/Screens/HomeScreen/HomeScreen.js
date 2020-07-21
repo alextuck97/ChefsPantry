@@ -85,7 +85,9 @@ const HomeScreen = ({navigation}) => {
 
             <View style={pageStyles.searchButtonContainer}>
                 <Button color="#2bc234"  title={"Search"} onPress={() => searchClick()} />
-                <Button color="#e64c35" title={"Clear"} onPress={() => setIngredientQuery([])}/>
+                <Button color="#e64c35" title={"Clear"} onPress={() => {setIngredientQuery([]);
+                                                                        setLoadedRecipes([]);}}
+                />
 
             </View>
             
@@ -96,14 +98,25 @@ const HomeScreen = ({navigation}) => {
             </View>
             
             <ScrollView>
-                {Object.entries(recipes).map(([key, value], index) => {
+                {/* {Object.entries(recipes).map(([key, value], index) => {
                     return <RecipeResult 
                                 key={key} 
                                 recipeKey={key} 
                                 recipeData={value} 
                                 navigation={navigation}
                                 setLoading={onLoadChange}/>
-                })}  
+                }) */
+                
+                recipes.map((value, index) => {
+                    return <RecipeResult key={value._id}
+                                        recipeKey={value._id}
+                                        recipeData={value}
+                                        navigation={navigation}
+                                        setLoading={onLoadChange}
+                            />
+                })
+                
+                }  
             </ScrollView>
             
             

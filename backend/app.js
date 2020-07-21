@@ -22,10 +22,13 @@ const recipe_routes = require("./routes/recipe_routes");
 /***************************** */
 
 const db = require("./db");
-const dbName = "sample_recipes";
 const collectionName = "recipes";
 
-
+if(process.argv[2] === "production"){
+    var dbName = "production_recipes";
+} else{
+    var dbName = "sample_recipes";
+}
 
 db.initialize(dbName, collectionName, function(dbCollection) {
 
