@@ -1,7 +1,9 @@
 
-const ing_url = "http://10.0.2.2:3000/recipes/ingredients?";
 
-const id_url = "http://10.0.2.2:3000/recipes/id/";
+const url = "https://lncs6vy774.execute-api.us-east-1.amazonaws.com/dev"
+const ing_url = "/recipes/ingredients?";
+
+const id_url = "/recipes/id/";
 
 function queryRecipe(ingredients) {
 
@@ -11,7 +13,7 @@ function queryRecipe(ingredients) {
         queryString += "ing=" + element + "&";
     });
 
-    return fetch(ing_url + queryString).then((response) => response.json())
+    return fetch(url + ing_url + queryString).then((response) => response.json())
     .catch((error) => {
         console.log(error);
     });
@@ -21,7 +23,7 @@ function queryRecipe(ingredients) {
 
 
 function queryById(recipeId) {
-    return fetch(id_url + recipeId)
+    return fetch(url + id_url + recipeId)
     .then(response => {
         if(response.status === 200)
         {

@@ -2,7 +2,7 @@ var chai = require("chai");
 var chaiHttp = require("chai-http");
 var enableDestroy = require("server-destroy");
 
-var app = require("../app").app;
+var app = require("../app");
 
 
 chai.use(chaiHttp);
