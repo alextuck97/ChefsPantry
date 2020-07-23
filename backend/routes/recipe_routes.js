@@ -71,7 +71,8 @@ router.get('/ingredients', async function(request, response) {
             let queries = [];
             
             ingredients.forEach((value, index) => {
-                queries[index] = request.dbCollection.find({"recipe.ingredients" : value.toLowerCase()})
+                v = value.toLowerCase().trim().replace(/ +(?= )/g,'');
+                queries[index] = request.dbCollection.find({"recipe.ingredients" : v})
                         .project({_id : 1, sitetitle : 1, "recipe.title" : 1}).toArray();
             })
 
@@ -89,6 +90,8 @@ router.get('/ingredients', async function(request, response) {
             })
             
             let counts = Object.values(matchCounts);
+            // Limit the number of returned items
+            counts = counts.slice(0,25);
             counts.sort((a, b) => b.count - a.count);
             response.json(counts);
         }

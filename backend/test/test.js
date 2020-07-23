@@ -91,6 +91,17 @@ describe('Recipe Routes', function () {
 
         it('should return a list with length 3', function (done) {
             chai.request(app)
+                .get("/recipes/ingredients?ing=yellow     onion &")
+                .end(function(err, res) {
+                    res.should.have.status(200);
+                    //res.body.should.have.all.keys('olive oil');
+                    res.body.length.should.equal(3);
+                    done();
+                })
+        })
+
+        it('should return a list with length 3', function (done) {
+            chai.request(app)
                 .get("/recipes/ingredients?ing=YELLOW onION&")
                 .end(function(err, res) {
                     res.should.have.status(200);
